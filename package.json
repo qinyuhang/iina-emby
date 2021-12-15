@@ -1,0 +1,54 @@
+{
+  "name": "iina-emby",
+  "version": "0.0.1",
+  "description": "Demo plugin for IINA",
+  "main": "dist/index.js",
+  "source": "src/index.ts",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/react": "^17.0.37",
+    "@types/react-dom": "^17.0.11",
+    "autoprefixer": "^10.4.0",
+    "iina-plugin-definition": "^0.0.6",
+    "parcel": "^2.0.1",
+    "parcel-optimizer-webview": "git+https://github.com/iina/parcel-optimizer-webview.git",
+    "postcss": "^8.4.5",
+    "prettier": "^2.2.1",
+    "typescript": "^4.5.3"
+  },
+  "dependencies": {
+    "@emotion/css": "^11.7.1",
+    "emby-api-ts": "^0.0.14",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "tailwindcss": "^3.0.2"
+  },
+  "entry": "src/index.js",
+  "globalEntry": "src/global.js",
+  "saWindow": "src/standalone/index.html",
+  "prefTpl": "src/pref/index.html",
+  "targets": {
+    "main": false,
+    "saWindow": {
+      "distDir": "./dist/standalone",
+      "publicUrl": "./",
+      "source": "src/standalone/index.html"
+    },
+    "prefTpl": {
+      "distDir": "./dist/pref",
+      "publicUrl": "./",
+      "source": "src/pref/index.html"
+    },
+    "entry": {
+      "distDir": "./dist/",
+      "source": "src/index.ts",
+      "isLibrary": false
+    },
+    "globalEntry": {
+      "distDir": "./dist/",
+      "source": "src/globalEntry.ts",
+      "isLibrary": false
+    }
+  },
+  "browserslist": "safari >= 9"
+}
