@@ -1,62 +1,21 @@
+const colors = require('tailwindcss/colors')
 module.exports = {
     // prefix: 'emby-',
     content: [
         './src/standalone/*.{html,ts,tsx}',
-        './src/pref/*.{html,ts,tsx}'
+        './src/standalone/**/*.{html,ts,tsx}',
+        './src/pref/*.{html,ts,tsx}',
+        './src/pref/**/*.{html,ts,tsx}'
     ],
     dark: 'media',
     theme: {
-        // colors: {
-        //     gray: {
-        //         100: '#f7fafc',
-        //         200: '#edf2f7',
-        //         300: '#e2e8f0',
-        //         400: '#cbd5e0',
-        //         500: '#a0aec0',
-        //         600: '#718096',
-        //         700: '#4a5568',
-        //         800: '#2d3748',
-        //         900: '#1a202c',
-        //       },
-        // },
-        // colors: ({ colors }) => ({
-        //     ...colors,
-        //     inherit: colors.inherit,
-        //     current: colors.current,
-        //     transparent: colors.transparent,
-        //     black: colors.black,
-        //     white: colors.white,
-        //     slate: colors.slate,
-        //     gray: '#88888',
-        //     zinc: colors.zinc,
-        //     neutral: colors.neutral,
-        //     stone: colors.stone,
-        //     red: colors.red,
-        //     orange: colors.orange,
-        //     amber: colors.amber,
-        //     yellow: colors.yellow,
-        //     lime: colors.lime,
-        //     green: colors.green,
-        //     emerald: colors.emerald,
-        //     teal: colors.teal,
-        //     cyan: colors.cyan,
-        //     sky: colors.sky,
-        //     blue: colors.blue,
-        //     indigo: colors.indigo,
-        //     violet: colors.violet,
-        //     purple: colors.purple,
-        //     fuchsia: colors.fuchsia,
-        //     pink: colors.pink,
-        //     rose: colors.rose,
-        //   }),
-    //     colors: {
-    //         // gray: '#88888',
-    //         // "gray-dark": '#222222'
-    //         'gray-dark': '#273444',
-    //   'gray': '#8492a6',
-    //   'gray-light': '#d3dce6',
-    //     },
-        extend: {},
+        colors: {
+            ...colors,
+            gray: colors.trueGray,
+        },
+        extend: {
+
+        },
     },
     plugins: [],
 }

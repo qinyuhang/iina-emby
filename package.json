@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "description": "Demo plugin for IINA",
   "main": "dist/index.js",
-  "source": "src/index.ts",
   "license": "MIT",
   "devDependencies": {
     "@types/react": "^17.0.37",
@@ -19,14 +18,11 @@
   "dependencies": {
     "@emotion/css": "^11.7.1",
     "emby-api-ts": "^0.0.14",
+    "guid-factory": "^1.1.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "tailwindcss": "^3.0.2"
   },
-  "entry": "src/index.js",
-  "globalEntry": "src/global.js",
-  "saWindow": "src/standalone/index.html",
-  "prefTpl": "src/pref/index.html",
   "targets": {
     "main": false,
     "saWindow": {
@@ -39,16 +35,14 @@
       "publicUrl": "./",
       "source": "src/pref/index.html"
     },
-    "entry": {
+    "pluginEntry": {
       "distDir": "./dist/",
-      "source": "src/index.ts",
-      "isLibrary": false
-    },
-    "globalEntry": {
-      "distDir": "./dist/",
-      "source": "src/globalEntry.ts",
+      "source": "src/pluginEntry.ts",
       "isLibrary": false
     }
   },
-  "browserslist": "safari >= 9"
+  "browserslist": "safari >= 9",
+  "scripts": {
+    "build": "parcel build ."
+  }
 }
