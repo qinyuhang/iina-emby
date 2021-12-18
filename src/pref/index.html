@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IINA-EMBY-Pref</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            height: 100vh;
+            width: 100vw;
+        }
+    </style>
+    
+</head>
+<body class="dark:bg-gray-700 dark:text-gray-300 w-screen h-screen overflow-hidden p-2">
+    <div>
+        <label>
+            <input type="checkbox" data-pref-key="auto-open">
+            Open Emby Home When Launch IINA
+        </label>
+    </div>
+    <script type="module">
+        import { PrefEnum } from '../constants'
+        const autoOpenKey = PrefEnum.AutoOpen;// 'online.welkin.iina-emby.auto-open';
+        const autoOpenInput = document.querySelector('input[data-pref-key="auto-open"]')
+        const { preferences } = window.iina;
+        const inputs = document.querySelectorAll("input[data-pref-key]");
+        Array.prototype.forEach.call(inputs, input => {
+            const key = input.dataset.prefKey;
+            iina.log(key)
+            preferences.get(key, (value) => {
+                iina.log(value)
+                input.value = value;
+            });
+            input.addEventListener("change", () => {
+                let value = input.value;
+                switch (input.dataset.type) {
+                    case "int": value = parseInt(value); break;
+                    case "float": value = parseFloat(value); break;
+                }
+                preferences.set(key, value);
+            });
+        });
+        preferences.get(autoOpenKey, (value) => {
+            autoOpenInput.checked = !!value
+        });
+    </script>
+</body>
+</html>
