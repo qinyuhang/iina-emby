@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>IINA-Emby</title>
+  <!-- <link rel="stylesheet" href="style.css"> -->
+  <!-- TODO 适配系统黑白色 -->
+  <style>
+    @media (prefers-color-scheme: light) {}
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: black;
+        color: white;
+      }
+    }
+  </style>
+  <script>
+    window.writeToBody = function writeToBody(str) {
+      const t = document.createElement("div");
+      t.innerText = JSON.stringify(str);
+      document.body.appendChild(t);
+    }
+  </script>
+</head>
+
+<body class="dark:bg-black dark:text-gray-300 h-screen overflow-hidden">
+  <div id="root" class="h-screen"></div>
+  <script type="module" src="./index.tsx"></script>
+</body>
+
+</html>
