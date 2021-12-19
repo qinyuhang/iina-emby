@@ -14,3 +14,6 @@ TODO
 - [] http support (iina is using Apple Secure Transport,
 which reject http request, so it is not allow to connect
 to a LAN emby or Intenet emby without ssl/https)
+- [] enter serverHome not call auth with name and pw but 
+find other method check local token first, if token fail
+then go auth with user and pw
