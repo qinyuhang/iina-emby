@@ -11,6 +11,7 @@ import { SheetTitle } from "../../components/sheetTitle";
 import { ServerSearchView } from "../serverSearch";
 import EmbyConnector from "emby-api-ts";
 import { embyTools } from "../../model";
+import { showLoading, hideLoading } from "../../../utils";
 import * as EMBYModels from "emby-api-ts/lib/models/models";
 
 export interface ServerHomeProps extends Partial<ServerConfig>, SheetChildrenProps {
@@ -61,6 +62,7 @@ export class ServerHome extends React.Component<
 
   componentDidMount() {
     if (this.props.serverConfig) {
+      showLoading({});
       this.setState(this.props.serverConfig);
 
       this.emby = initEmbyConnectFromUserInput(this.props.serverConfig);
@@ -87,6 +89,8 @@ export class ServerHome extends React.Component<
           .then((_) => {
             this.setState({
               myViews: _.data.items,
+            }, () => {
+              hideLoading();
             });
           });
       });
