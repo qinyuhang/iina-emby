@@ -6,11 +6,14 @@ import * as React from "react";
 import { ServerConfig } from "../../app";
 import { initEmbyConnectFromUserInput, makeHost } from "../../../utils";
 import { ItemList } from "../itemList";
-import { Sheet } from "../../components/sheet";
+import { Sheet, SheetChildrenProps } from "../../components/sheet";
+import { SheetTitle } from "../../components/sheetTitle";
+import { ServerSearchView } from "../serverSearch";
 import EmbyConnector from "emby-api-ts";
 import { embyTools } from "../../model";
+import * as EMBYModels from "emby-api-ts/lib/models/models";
 
-export interface ServerHomeProps extends Partial<ServerConfig> {
+export interface ServerHomeProps extends Partial<ServerConfig>, SheetChildrenProps {
   onSave: (formData: any) => void;
   onCancel: () => void;
   serverConfig: ServerConfig;
@@ -23,6 +26,7 @@ export interface ServerHomeState extends ServerConfig {
   showItemList: boolean;
   currentItemId: string;
   currentItem: null | any; // TODO
+  showSearch: boolean;
 }
 
 export class ServerHome extends React.Component<
@@ -46,6 +50,7 @@ export class ServerHome extends React.Component<
     showItemList: false,
     currentItemId: "",
     currentItem: null,
+    showSearch: false,
   };
 
   emby: EmbyConnector | null;
@@ -66,10 +71,12 @@ export class ServerHome extends React.Component<
 
       let fp = Promise.resolve();
       if (!this.emby.token) {
-        fp = this.emby.authenticateByName(
-          this.props.serverConfig.username,
-          this.props.serverConfig.password
-        ).then(() => {})
+        fp = this.emby
+          .authenticateByName(
+            this.props.serverConfig.username,
+            this.props.serverConfig.password
+          )
+          .then(() => {});
       }
 
       fp.then((_) => {
@@ -121,6 +128,18 @@ export class ServerHome extends React.Component<
     });
   };
 
+  onSearchClick = () => {
+    this.setState({
+      showSearch: true,
+    });
+  };
+
+  hideSearch = () => {
+    this.setState({
+      showSearch: false,
+    });
+  };
+
   hideItem = () => {
     this.setState({
       showItemList: false,
@@ -136,6 +155,7 @@ export class ServerHome extends React.Component<
       showItemList,
       currentItemId,
       currentItem,
+      showSearch,
     } = this.state;
     const inputBaseClassNames = [
       `appearance-none`,
@@ -165,15 +185,13 @@ export class ServerHome extends React.Component<
       <div
         className={`transition-all ease-in-out h-screen w-screen absolute ${"top-0"} rounded-xl dark:bg-gray-800 bg-gray-100`}
       >
-        <div
-          className={`flex justify-between py-3 dark:bg-gray-900 bg-gray-200  p-5 rounded-t-xl`}
-        >
-          <button className={`text-red-600`} onClick={this.onCancel}>
-            Exit
-          </button>
-          <h1>{serverTitle}</h1>
-          <button className={`opacity-0`}>Empty</button>
-        </div>
+        <SheetTitle
+          title={serverTitle}
+          cancelText="Exit"
+          confirmText="Search"
+          onCancel={this.onCancel}
+          onConfirm={this.onSearchClick}
+        />
 
         <div className="home">
           <section className="p-2 px-4">
@@ -211,6 +229,14 @@ export class ServerHome extends React.Component<
               parentItem={currentItem}
               onCancel={this.hideItem}
             ></ItemList>
+          </Sheet>
+
+          <Sheet show={showSearch} name="server-search">
+            <ServerSearchView
+              onCancel={this.hideSearch}
+              onConfrim={console.log}
+              title="Search"
+            ></ServerSearchView>
           </Sheet>
         </div>
       </div>

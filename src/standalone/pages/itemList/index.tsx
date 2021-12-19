@@ -6,20 +6,33 @@ import {
   PrefEnum,
   EventNameNum,
 } from "../../../constants";
-
+import { ItemDetail } from "../itemDetail";
+import { Sheet, SheetChildrenProps } from "../../components/sheet";
+import { SheetTitle } from "../../components/sheetTitle";
+import { PlayBtn } from "../../components/playBtn";
+import { ItemList as ItemListComponent } from "../../components/itemList";
 // maybe should change to sortList
-export interface ItemListProps {
+export interface ItemListProps extends SheetChildrenProps {
   parentItem: any; // TODO
   onCancel: () => void;
 }
 export interface ItemListState {
   // TODO types
   itemList: Array<any>;
+
+  showDetail: {
+    itemId: string;
+    show: boolean;
+  };
 }
 
 export class ItemList extends React.Component<ItemListProps, ItemListState> {
   state: ItemListState = {
     itemList: [],
+    showDetail: {
+      itemId: "",
+      show: false,
+    },
   };
   constructor(props) {
     super(props);
@@ -68,93 +81,75 @@ export class ItemList extends React.Component<ItemListProps, ItemListState> {
 
   // save this to item
   onItemClick = (item) => {
-    console.log(item);
-    debugger;
-    const emby = embyTools.getCurrent();
+    this.setState({
+      showDetail: {
+        itemId: item.id,
+        show: true,
+      },
+    });
 
-    // fetch item if is not folder play
-    // if is folder
-    // emby
-    //   .embyAPI({
-    //     url: `/Users/${emby.userID}/Items/${item.id}`,
-    //   })
-    //   .then(console.log);
+    // console.log(item);
+    // debugger;
+    // const emby = embyTools.getCurrent();
 
-    const videoUrl = `${emby.host}/Videos/${
-      item.id
-    }/stream?Static=true&DeviceID=${
-      embyTools.getDeviceId()
-    }&api_key=${
-      emby.token
-    }&PlaySessionId=${''}&&filename=${
-      encodeURIComponent(
-      item.name
-    )}`;
-    // @ts-ignore
-    if (global.iina || window.iina) {
-      // @ts-ignore
-      iina.postMessage(MessageName, {
-        event: EventNameNum.Play,
-        data: {
-          url: videoUrl,
-        },
-      });
-    }
+    // // fetch item if is not folder play
+    // // if is folder
+    // // emby
+    // //   .embyAPI({
+    // //     url: `/Users/${emby.userID}/Items/${item.id}`,
+    // //   })
+    // //   .then(console.log);
+
+    // const videoUrl = `${emby.host}/Videos/${
+    //   item.id
+    // }/stream?Static=true&DeviceID=${embyTools.getDeviceId()}&api_key=${
+    //   emby.token
+    // }&PlaySessionId=${""}&&filename=${encodeURIComponent(item.name)}`;
+    // // @ts-ignore
+    // if (global.iina || window.iina) {
+    //   // @ts-ignore
+    //   iina.postMessage(MessageName, {
+    //     event: EventNameNum.Play,
+    //     data: {
+    //       url: videoUrl,
+    //     },
+    //   });
+    // }
+  };
+  hideItemView = () => {
+    this.setState({
+      showDetail: {
+        itemId: "",
+        show: false,
+      },
+    });
   };
   onCancel = () => {
     this.props.onCancel();
   };
   render() {
-    const { itemList } = this.state;
+    const { itemList, showDetail } = this.state;
     const { parentItem } = this.props;
+    const currentItem =
+      itemList.filter((i) => i.id === showDetail.itemId)[0] || {};
     const emby = embyTools.getCurrent();
     return (
       <div className={`h-screen overflow-y-scroll`}>
-        <div
-          className={`absolute top-0 left-0 w-screen flex justify-between py-3 dark:bg-gray-900 bg-gray-200  p-5 rounded-t-xl`}
-        >
-          <button className={`text-red-600`} onClick={this.onCancel}>
-            Back
-          </button>
-          <h1>{parentItem.name}</h1>
-          <button className={`opacity-0`}>Empty</button>
-        </div>
+        <SheetTitle
+          title={parentItem.name}
+          cancelText="Back"
+          onCancel={this.onCancel}
+        />
 
-        {/* placeholder */}
-        <div
-          className={`opacity-0 w-screen flex justify-between py-3 dark:bg-gray-900 bg-gray-200  p-5 rounded-t-xl`}
-        >
-          <button className={`text-red-600`} onClick={this.onCancel}>
-            Back
-          </button>
-          <h1>{parentItem.name}</h1>
-          <button className={`opacity-0`}>Empty</button>
-        </div>
-
-        <div>
-          <ul className={`flex flex-wrap row-auto`}>
-            {itemList.map((item) => (
-              <li
-                className={`flex flex-col items-center cursor-pointer p-5`}
-                key={JSON.stringify(item)}
-                data-json={JSON.stringify(item)}
-              >
-                {/* TODO replace with itemDetail */}
-                <div
-                  className={`w-40 rounded-lg overflow-hidden flex flex-col items-center`}
-                  onClick={() => this.onItemClick(item)}
-                >
-                  <img
-                    className={`h-48`}
-                    src={`${emby.host}/Items/${item.id}/Images/Primary`}
-                    alt=""
-                  />
-                  <span>{item.name}</span>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <ItemListComponent itemList={itemList} onItemClick={this.onItemClick}>
+          <Sheet show={showDetail.show} name="item-detail">
+            <ItemDetail
+              onCancel={this.hideItemView}
+              item={currentItem}
+            ></ItemDetail>
+          </Sheet>
+        </ItemListComponent>
+        
       </div>
     );
   }

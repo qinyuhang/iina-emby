@@ -10,8 +10,9 @@ import {
 } from "../../../utils";
 import { ServerConfig } from "../../app";
 import { embyTools } from "../../model";
+import { SheetChildrenProps } from "../../components/sheet";
 
-export interface ServerInfoCardProps extends Partial<ServerConfig> {
+export interface ServerInfoCardProps extends Partial<ServerConfig>, SheetChildrenProps {
   onSave: (formData: any) => void;
   onCancel: () => void;
 }
