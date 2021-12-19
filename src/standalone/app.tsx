@@ -116,23 +116,35 @@ export class App extends React.Component<AppProps, AppState> {
   ) => {
     const { serverList: serversFromInitData = [] } = data.data;
     const serversInState = this.state.serverList;
+    const pa: Array<Promise<ServerConfig>> = [];
     try {
       serversFromInitData.forEach((s) => {
-        const hasServer =
-          this.servers.filter((sc) => sc.serverID === s.serverId).length !== 0;
-        if (!hasServer) {
-          const emby = this.initOneFromUserInput(s);
-          // TODO store token
-          embyTools.addEmby(emby);
-          this.servers.push(
-            new EmbyConnector(`http${s.https && "s"}://${s.domain}:${s.port}`)
-          );
-          serversInState.push(s);
-        }
+        pa.push(
+          this.initOneFromUserInput(s).then((emby) => {
+            embyTools.addEmby(emby);
+            this.servers.push(emby);
+            return {
+              ...s,
+              token: emby.token,
+            };
+          })
+        );
       });
 
-      this.setState({
-        serverList: serversInState,
+      Promise.all(pa).then((s) => {
+        debugger;
+        this.setState(
+          {
+            serverList: [...serversInState, ...s],
+          },
+          () => {
+            // save back
+            this.sync({
+              key: PrefEnum.ServerList,
+              value: [...serversInState, ...s],
+            });
+          }
+        );
       });
     } catch (e) {}
   };
@@ -144,10 +156,15 @@ export class App extends React.Component<AppProps, AppState> {
    */
   initOneFromUserInput = (initData: Omit<ServerConfig, "serverId">) => {
     const emby = new EmbyConnector(`${makeHost(initData)}`, initData.token);
-    if (!initData.token) {
-      emby.authenticateByName(initData.username, initData.password);
-    }
-    return emby;
+    return new Promise<EmbyConnector>((r) => {
+      if (!initData.token) {
+        emby
+          .authenticateByName(initData.username, initData.password)
+          .then(() => r(emby));
+      } else {
+        r(emby);
+      }
+    });
   };
 
   /**
