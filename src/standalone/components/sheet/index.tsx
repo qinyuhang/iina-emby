@@ -4,6 +4,16 @@
  */
 import * as React from "react";
 
+export interface SheetChildrenProps {
+  onCancel: () => void;
+  cancelText?: string;
+  
+  title?: string;
+
+  onConfrim?: () => void;
+  confirmText?: string;
+}
+
 export interface SheetProps {
   show: boolean;
 
@@ -18,6 +28,8 @@ export interface SheetProps {
    * 会体现在 data-name 和 id 上
    */
   name: string;
+
+  children?: React.ReactElement<SheetChildrenProps>
 }
 export interface SheetState {
   didMount: boolean;
@@ -118,7 +130,7 @@ export class Sheet extends React.Component<SheetProps, SheetState> {
       <div
         id={name}
         data-name={name}
-        className={`transition-all ease-in-out h-screen w-screen absolute ${
+        className={`transition-all ease-in-out h-screen w-screen fixed ${
             ""
         } rounded-xl overflow-y-scroll dark:bg-gray-800 bg-gray-100`}
         style={{

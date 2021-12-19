@@ -11,4 +11,6 @@ TODO
 - [] search
 - [] item detail page
 - [] item folder/boxset view
-
+- [] http support (iina is using Apple Secure Transport,
+which reject http request, so it is not allow to connect
+to a LAN emby or Intenet emby without ssl/https)
