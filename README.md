@@ -1,5 +1,7 @@
 # IINA-EMBY
 
+[![CI](https://github.com/qinyuhang/iina-emby/actions/workflows/ci.yml/badge.svg)](https://github.com/qinyuhang/iina-emby/actions/workflows/ci.yml)
+
 ## 这是什么项目？
 本项目是使用了 IINA 的插件功能构建的。
 能够在 IINA 播放器上打开一个独立窗口，
@@ -17,3 +19,5 @@ to a LAN emby or Intenet emby without ssl/https)
 - [] enter serverHome not call auth with name and pw but 
 find other method check local token first, if token fail
 then go auth with user and pw
+- [] item detail make image height a percentage of 100vw
+to fix the image ratio
