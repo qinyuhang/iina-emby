@@ -68,6 +68,7 @@ standaloneWindow.onMessage(MessageName, (data: EMBYMessageData) => {
       break;
     case EventNameNum.Set:
       preferences.set(data.data.key, data.data.value);
+      preferences.sync();
       break;
     case EventNameNum.Get:
       const value = preferences.get(data.data.key);
