@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+      branches: [master]
+  pull_request:
+      branches: [master]
+  workflow_dispatch:
+      inputs:
+          build_branch:
+              description: 'branch to build'
+              required: false
+              default: 'develop'
+
+jobs:
+  build:
+    # FIXME: This builds with macOS 10.15. Move this to the 11.0 builders when possible. (See: https://github.com/actions/virtual-environments/issues/2486)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Create Artifacts
+        run: |
+          rm -rf node_modules
+          zip -r ~/iina-emby.zip *
+      - name: Upload Build
+        uses: actions/upload-artifact@v2
+        with:
+          name: iina-emby.zip
+          path: ~/iina-emby.zip
