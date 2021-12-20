@@ -8,9 +8,9 @@
     "author": {
         "name": "qinyuhang",
         "email": "qinyuhangxiaoxiang@gmail.com",
-        "url": ""
+        "url": "https://github.com/qinyuhang/iina-emby"
     },
-    "helpPage": "",
+    "helpPage": "https://github.com/qinyuhang/iina-emby",
     "entry": "./dist/pluginEntry.js",
     "permissions": ["show-osd", "network-request", "menu-items", "video-overlay", "call-process", "file-system"],
     "allowedDomains": ["*"],
