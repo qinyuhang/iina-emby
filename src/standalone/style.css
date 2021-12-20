@@ -15,3 +15,18 @@ input:checked~.dot {
     transform: translateX(100%);
     background-color: #48bb78;
 }
+
+.hidden-scroll-bar::-webkit-scrollbar {
+    width: 0 !important
+}
+
+.hidden-scroll-bar {
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+}
+.shadow-text {
+    text-shadow: 1px 1px 4px rgba(255,255,255,0.5);
+}
+.strok-text {
+    -webkit-text-stroke: rgba(255,255,255,0.5);
+}

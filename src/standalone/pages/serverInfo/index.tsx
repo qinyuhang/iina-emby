@@ -12,7 +12,9 @@ import { ServerConfig } from "../../app";
 import { embyTools } from "../../model";
 import { SheetChildrenProps } from "../../components/sheet";
 
-export interface ServerInfoCardProps extends Partial<ServerConfig>, SheetChildrenProps {
+export interface ServerInfoCardProps
+  extends Partial<ServerConfig>,
+    SheetChildrenProps {
   onSave: (formData: any) => void;
   onCancel: () => void;
 }
@@ -31,6 +33,7 @@ export class ServerInfoCard extends React.Component<
     serverId: "",
     serverTitle: "",
     token: "",
+    userId: "",
   };
 
   constructor(props) {
@@ -103,6 +106,7 @@ export class ServerInfoCard extends React.Component<
 
             embyTools.addEmby(emby);
             formObj["token"] = r.accessToken;
+            formObj["userId"] = r.user.id;
             this.props.onSave(formObj);
             return true;
           })

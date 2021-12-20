@@ -5,12 +5,14 @@ import { embyTools } from "../../model";
 export interface ItemListProps {
   itemList: Array<any>; //todo
   onItemClick: (item: any) => void;
+  onLoadMore: () => void;
+  hasMore: boolean;
 }
 
 export class ItemList extends React.Component<ItemListProps> {
   onItemClick = (item) => this.props.onItemClick(item);
   render() {
-    const { itemList } = this.props;
+    const { itemList, onLoadMore, hasMore } = this.props;
     const emby = embyTools.getCurrent();
     return (
       <div>
@@ -39,6 +41,8 @@ export class ItemList extends React.Component<ItemListProps> {
               </div>
             </li>
           ))}
+          {/* loadmore element todo use intersectObserver */}
+          {hasMore && <button onClick={this.props.onLoadMore}>LoadMore</button>}
         </ul>
 
         {this.props.children}

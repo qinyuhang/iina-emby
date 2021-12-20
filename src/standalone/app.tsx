@@ -43,6 +43,7 @@ export interface ServerConfig {
   // Saved UserInput end
 
   serverId: string;
+  userId: string;
   token: string;
 }
 

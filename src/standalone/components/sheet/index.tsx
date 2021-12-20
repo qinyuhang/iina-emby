@@ -132,11 +132,12 @@ export class Sheet extends React.Component<SheetProps, SheetState> {
         data-name={name}
         className={`transition-all ease-in-out h-screen w-screen fixed ${
             ""
-        } rounded-xl overflow-y-scroll dark:bg-gray-800 bg-gray-100`}
+        } overflow-y-scroll dark:bg-gray-800 bg-gray-100`}
         style={{
           top: `${didMount ? top + "px" : "100%"}`,
           zIndex: `${Math.floor(Date.now() / 1000 / 60 / 24)}`,
           transform: `scale3d(${scaleToBeCoverd ? 0.9 : 1},${scaleToBeCoverd ? 0.9 : 1},1)`,
+          borderRadius: `${(scaleToBeCoverd || top !== 0) ? '0.75rem': '0'}`,
         }}
       >
         {mountChildren ? children : null}

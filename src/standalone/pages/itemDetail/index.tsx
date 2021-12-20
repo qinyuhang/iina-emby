@@ -3,6 +3,7 @@ import { embyTools } from "../../model";
 import { SheetChildrenProps } from "../../components/sheet";
 import { SheetTitle } from "../../components/sheetTitle";
 import { PlayBtn } from "../../components/playBtn";
+import { hideLoading, showLoading } from "../../../utils";
 // import { UserItemDataDto } from "../../../swagger/typescript/models"
 
 export interface ItemDetailProps extends SheetChildrenProps {
@@ -21,14 +22,14 @@ export class ItemDetail extends React.Component<
     result: null,
   };
   componentDidMount(): void {
-    console.log(this.props);
+    showLoading({});
     const emby = embyTools.getCurrent();
     emby
       .embyAPI({
         url: `/Users/${emby.userID}/Items/${this.props.item.id}`,
       })
       .then((_) => {
-        console.log(_);
+        hideLoading();
         this.setState({
           result: _.data,
         });
@@ -39,19 +40,32 @@ export class ItemDetail extends React.Component<
     const { result } = this.state;
     const emby = embyTools.getCurrent();
     return (
-      <div>
+      <div className="h-screen overflow-y-scroll">
         <SheetTitle
           title={""}
           onCancel={this.props.onCancel}
-          cancelText="<Back"
+          cancelText="Back"
           transparentBg={true}
           noPlaceHolder={true}
         />
 
         <section className={`relative`}>
-          <h1 className={`text-3xl absolute bottom-0 left-0 p-5 w-screen bg-gradient-to-t from-gray-800 z-30`}>{item.name}</h1>
+          <div
+            className={`absolute bottom-0 left-0 p-5 w-screen bg-gradient-to-t from-gray-800 z-50`}
+          >
+            <h1 className={`text-3xl`}>
+              {item.name}
+              {item.isFolder ? "folder" : ""}
+            </h1>
+            <h2>
+              Rate: {result?.communityRating ? result.communityRating : ""}
+            </h2>
+          </div>
           {item?.id && (
             <img
+              style={{
+                height: `calc(58vw)`,
+              }}
               src={`${emby.host}/Items/${item.id}/Images/Backdrop/`}
               alt=""
             />

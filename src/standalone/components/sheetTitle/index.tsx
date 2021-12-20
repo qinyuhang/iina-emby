@@ -27,14 +27,14 @@ export class SheetTitle extends React.Component<SheetTitleProps> {
         <div
           className={`flex justify-between py-3 p-5 fixed w-screen dark:bg-gray-900 bg-gray-200 ${
             transparentBg ? "bg-transparent dark:bg-transparent" : ""
-          } rounded-t-xl z-30`}
+          } z-100`}
         >
-          <button className={`text-red-600`} onClick={onCancel}>
+          <button className={`text-red-600 strok-text`} onClick={onCancel}>
             {cancelText ? cancelText : "Cancel"}
           </button>
           {title && <h1>{title}</h1>}
           <button
-            className={`${confirmText ? "" : "opacity-0"}`}
+            className={`${confirmText ? "strok-text" : "opacity-0"}`}
             onClick={onConfirm}
           >
             {confirmText}

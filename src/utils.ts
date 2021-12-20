@@ -14,5 +14,8 @@ export { showLoading, hideLoading } from "./standalone/components/loading";
 export function initEmbyConnectFromUserInput(
   userInput: Omit<ServerConfig, "serverId">
 ) {
+  if (userInput.userId && userInput.token) {
+    return new EmbyConnector(`${makeHost(userInput)}`, userInput.token);
+  }
   return new EmbyConnector(`${makeHost(userInput)}`);
 }

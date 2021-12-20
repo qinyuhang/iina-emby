@@ -33,7 +33,7 @@ export class PlayBtn extends React.Component<PlayBtnProps> {
     const { className = "" } = this.props;
     return (
       <button
-        className={`rounded-lg border-2 dark:border-gray-300 px-4 ${className}`}
+        className={`rounded-lg border-2 dark:border-gray-300 px-4 ${className} z-50`}
         onClick={this.play}
       >
         Play

@@ -14,7 +14,9 @@ import { embyTools } from "../../model";
 import { showLoading, hideLoading } from "../../../utils";
 import * as EMBYModels from "emby-api-ts/lib/models/models";
 
-export interface ServerHomeProps extends Partial<ServerConfig>, SheetChildrenProps {
+export interface ServerHomeProps
+  extends Partial<ServerConfig>,
+    SheetChildrenProps {
   onSave: (formData: any) => void;
   onCancel: () => void;
   serverConfig: ServerConfig;
@@ -43,6 +45,7 @@ export class ServerHome extends React.Component<
     port: 0,
     serverId: "",
     serverTitle: "",
+    userId: "",
 
     token: "",
 
@@ -87,11 +90,14 @@ export class ServerHome extends React.Component<
             url: `/Users/${this.emby.userID}/Views`,
           })
           .then((_) => {
-            this.setState({
-              myViews: _.data.items,
-            }, () => {
-              hideLoading();
-            });
+            this.setState(
+              {
+                myViews: _.data.items,
+              },
+              () => {
+                hideLoading();
+              }
+            );
           });
       });
     }
@@ -201,7 +207,9 @@ export class ServerHome extends React.Component<
           <section className="p-2 px-4">
             <h2 className={`mb-2 text-lg`}>我的媒体库</h2>
             {/* my media todo use section */}
-            <ul className={`flex row-auto overflow-x-scroll`}>
+            <ul
+              className={`flex row-auto overflow-x-scroll -mx-5 hidden-scroll-bar`}
+            >
               {views.map((v) => (
                 <li
                   className={`flex flex-col items-center cursor-pointer px-5`}

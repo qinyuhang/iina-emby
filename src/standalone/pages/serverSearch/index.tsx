@@ -182,6 +182,8 @@ export class ServerSearchView extends React.Component<
         <ItemListComponent
           itemList={result?.searchHints || []}
           onItemClick={this.onItemClick}
+          hasMore={false}
+          onLoadMore={console.log}
         >
           <Sheet show={showDetail.show} name="item-detail">
             <ItemDetail
