@@ -10,8 +10,8 @@
 视频内容在 IINA 中播放。
 
 TODO
-- [] search
-- [] item detail page
+- [x] search
+- [x] item detail page
 - [] item folder/boxset view
 - [] http support (iina is using Apple Secure Transport,
 which reject http request, so it is not allow to connect
@@ -19,5 +19,7 @@ to a LAN emby or Intenet emby without ssl/https)
 - [] enter serverHome not call auth with name and pw but 
 find other method check local token first, if token fail
 then go auth with user and pw
-- [] item detail make image height a percentage of 100vw
+- [x] item detail make image height a percentage of 100vw
 to fix the image ratio
+- [] item detail page image on load error use default image
+- [] save play progress to emby server

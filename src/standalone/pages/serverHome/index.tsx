@@ -193,7 +193,7 @@ export class ServerHome extends React.Component<
     ].join(" ");
     return (
       <div
-        className={`transition-all ease-in-out h-screen w-screen absolute ${"top-0"} rounded-xl dark:bg-gray-800 bg-gray-100`}
+        className={`transition-all overflow-x-hidden ease-in-out h-screen w-screen absolute ${"top-0"} rounded-xl dark:bg-gray-800 bg-gray-100`}
       >
         <SheetTitle
           title={serverTitle}

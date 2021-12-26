@@ -35,6 +35,9 @@ export class ItemDetail extends React.Component<
         });
       });
   }
+  componentWillUnmount(): void {
+    hideLoading();
+  }
   render() {
     const { item } = this.props;
     const { result } = this.state;
@@ -51,7 +54,7 @@ export class ItemDetail extends React.Component<
 
         <section className={`relative`}>
           <div
-            className={`absolute bottom-0 left-0 p-5 w-screen bg-gradient-to-t from-gray-800 z-50`}
+            className={`absolute bottom-0 left-0 p-5 w-screen bg-gradient-to-t backdrop-blur-1 from-gray-800 z-50`}
           >
             <h1 className={`text-3xl`}>
               {item.name}
